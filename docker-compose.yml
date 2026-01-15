@@ -1,0 +1,29 @@
+services:
+  web:
+    container_name: lafs-web
+    build:
+      context: ../lafs-web
+    ports:
+      - "4200:4200"
+    depends_on:
+      - app
+
+  app:
+    container_name: lafs-api
+    restart: always
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      DB_HOST: mongo
+      DB_PORT: 27017
+      DB_NAME: lafs
+    depends_on:
+      - mongo
+
+  mongo:
+    container_name: lafs-db
+    image: mongo:4
+    ports:
+      - "27017:27017"
+
